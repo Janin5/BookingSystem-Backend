@@ -11,4 +11,6 @@ public interface IStylistRepository : IGenericRepository<Stylist, Guid>
     Task<Stylist> GetStylistwithProcedures(Guid stylistId);
 
     Task AddProcedureToStylist(Guid stylistId, Guid procedureId);
+
+    Task<StylistSchedule?> GetScheduleAsync(Guid stylistId, DayOfWeek day);
 }

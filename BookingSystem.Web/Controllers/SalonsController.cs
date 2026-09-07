@@ -40,8 +40,8 @@ public class SalonsController: ControllerBase
          return Ok(dto);
     }
 
-    [HttpGet("SalonsList")]
-    public async Task <IActionResult> GetAll()
+    [HttpGet]
+    public async Task <IActionResult> GetSalons()
     {
         var list = await _salonRepository.GetAllwithProcedures();
 

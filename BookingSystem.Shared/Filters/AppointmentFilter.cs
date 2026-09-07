@@ -3,4 +3,5 @@
 public class AppointmentFilter
 {
     public Guid? StylistId {get; set;}
+ 
 }

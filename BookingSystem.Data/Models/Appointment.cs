@@ -10,7 +10,7 @@ public class Appointment
     public DateTime AppointmentDate { get; set; }
 
     [Required]
-    public Status Status { get; set; } = Status.Pending;
+    public Status Status { get; set; } = Status.Confirmed;
 
 
     public Guid CustomerId { get; set; }

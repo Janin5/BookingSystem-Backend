@@ -29,7 +29,9 @@ public class ProcedureRepository: GenericRepository<Procedure,Guid> , IProcedure
 
     public async Task<Procedure?> GetByIdAsync(Guid id)
     {
-       return await _context.Procedures.Where(p => p.Id == id).FirstOrDefaultAsync();
+       return await _context.Procedures.Where(p => p.Id == id)
+            .Include(p=>p.Stylists)
+            .FirstOrDefaultAsync();
     }
 
 }

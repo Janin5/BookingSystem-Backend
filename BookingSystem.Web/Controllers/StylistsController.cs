@@ -1,4 +1,5 @@
-﻿using BookingSystem.Shared.Dtos;
+﻿using BookingSystem.Business;
+using BookingSystem.Shared.Dtos;
 using BookingSystem.Data.InterfacesRepositories;
 using BookingSystem.Data.Mappers;
 using BookingSystem.Data.Models;
@@ -11,9 +12,11 @@ namespace BookingSystem.Web.Controllers;
 public class StylistsController : ControllerBase
 {
     private readonly IStylistRepository _stylistRepository;
-    public StylistsController(IStylistRepository stylistRepository)
+    private readonly AvailabilityService _availabilityService;
+    public StylistsController(IStylistRepository stylistRepository, AvailabilityService availabilityService)
     {
         _stylistRepository = stylistRepository;
+        _availabilityService = availabilityService;
     }
 
 
@@ -69,6 +72,13 @@ public class StylistsController : ControllerBase
         var updatedDto = StylistMapper.ToReadDto(stylist);
         return Ok(updatedDto);
 
+    }
+
+    [HttpGet("{stylistId}/free-slots")]
+    public async Task<IActionResult> GetFreeSlots(Guid stylistId, [FromQuery] DateOnly date, [FromQuery] Guid procedureId)
+    {
+        var slots = await _availabilityService.GetFreeSlots(stylistId, date, procedureId);
+        return Ok(slots);
     }
 
     [HttpDelete("{id}")]

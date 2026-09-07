@@ -2,11 +2,8 @@
 using BookingSystem.Data.InterfacesRepositories;
 using BookingSystem.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using BookingSystem.Data.Mappers;
-using BookingSystem.Shared.Dtos;
-using System.Runtime.CompilerServices;
 using BookingSystem.Shared.Filters;
+using BookingSystem.Shared.Enums;
 
 namespace BookingSystem.Data.Repositories;
 
@@ -32,6 +29,18 @@ public class AppointmentRepository:GenericRepository<Appointment, Guid>, IAppoin
         query = query.Include(a=>a.Stylist).Include(a=>a.Procedure);
         query = query.OrderBy(a => a.Stylist.Name);
         return await query.ToListAsync();
+    }
+
+    public async Task<List<Appointment>> GetConfirmedAppointmentsByDateAsync(Guid stylistId, DateOnly date)
+    {
+        var start = date.ToDateTime(TimeOnly.MinValue);
+        var end = start.AddDays(1);
+
+        return await _context.Appointments
+            .Where(a => a.StylistId == stylistId && a.AppointmentDate >= start && a.AppointmentDate < end && a.Status != Status.Cancelled)
+            .Include(a => a.Procedure)
+            .OrderBy(a => a.AppointmentDate)
+            .ToListAsync();
     }
   
 

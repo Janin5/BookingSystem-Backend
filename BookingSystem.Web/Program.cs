@@ -32,6 +32,7 @@ builder.Services.AddScoped<IProcedureRepository, ProcedureRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<AppointmentService>();
+builder.Services.AddScoped<AvailabilityService>();
 
 var app = builder.Build();
 

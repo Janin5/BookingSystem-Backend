@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using BookingSystem.Data.Database;
+﻿using BookingSystem.Data.Database;
 using BookingSystem.Data.InterfacesRepositories;
 using BookingSystem.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +48,11 @@ public class StylistRepository: GenericRepository<Stylist, Guid>, IStylistReposi
             await _context.SaveChangesAsync();
 
         }
+    }
+
+    public async Task<StylistSchedule?>GetScheduleAsync(Guid stylistId, DayOfWeek day)
+    {
+        return await _context.StylistSchedules.FirstOrDefaultAsync(s => s.StylistId == stylistId && s.WorkDay == day);
     }
 
 }
